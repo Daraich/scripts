@@ -17,8 +17,16 @@ function metersToInches(m) {
   return m * 39.37007874;
 }
 
+function metersToCM(m) {
+  return m * 100;
+}
+
 function lengthOfNote(freqOfNote) {
   return Math.sqrt((Math.PI * SPEED_OF_SOUND_MATERIAL * K * (3.0112 ** 2)) / (8 * freqOfNote));
+}
+
+function findNodes(length) {
+  return .224 * length;
 }
 
 const baseFreqs = [
@@ -56,15 +64,37 @@ const baseFreqs = [
   1046.502
 ];
 
+const actualLengthsCM = [
+  21.8,
+  20.8,
+  20.2,
+  19.9,
+  19,
+  18.8,
+  17.9,
+  17.8,
+  16.8,
+  16.4,
+  15.9,
+  15.4,
+  15.3,
+  14.5,
+  14,
+  13.6,
+  13.2,
+  12.8,
+  12.4,
+  12.3
+];
+
 const freqs = baseFreqs.slice(12).map(freq => freq * 4);
 
 const lengthsOfNotes = freqs.map(freq => lengthOfNote(freq));
 
-const lengthsInInches = lengthsOfNotes.map(length => metersToInches(length));
-
-//console.log(lengthsOfNotes);
-console.log(lengthsInInches);
+const lengthsInCM = lengthsOfNotes.map(length => metersToCM(length).toFixed(2));
 
 const total = lengthsOfNotes.reduce(((sum, noteLength) => sum + noteLength));
 
-console.log(metersToInches(total));
+const nodes = actualLengthsCM.map(length => findNodes(length));
+
+console.log(nodes.map(node => node.toFixed(2)));
